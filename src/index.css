@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-mist text-ink font-sans antialiased;
+  }
+  * { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer components {
+  .container-x {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl font-black text-ink tracking-tight leading-tight;
+    font-family: "Plus Jakarta Sans", Inter, sans-serif;
+  }
+  .section-label {
+    @apply inline-block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-crimson mb-3;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
+           bg-brand-gradient text-white font-bold shadow-md
+           hover:shadow-glowCrimson hover:-translate-y-0.5 active:translate-y-0
+           transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed
+           disabled:hover:translate-y-0 disabled:hover:shadow-md;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
+           border-2 border-navy/20 text-navy font-bold bg-white
+           hover:border-navy hover:bg-mist transition-all duration-300;
+  }
+  .card {
+    @apply bg-white rounded-3xl shadow-card border border-powder/40
+           hover:shadow-cardHover transition-all duration-500;
+  }
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-xl border border-white/60 rounded-3xl;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #F6FAFD; }
+::-webkit-scrollbar-thumb { background: #B3CFE5; border-radius: 5px; border: 2px solid #F6FAFD; }
+::-webkit-scrollbar-thumb:hover { background: #4A7FA7; }
+
+/* Selection */
+::selection { background: #DC2626; color: #fff; }
+
+/* Focus visible */
+:focus-visible { outline: 2px solid #4A7FA7; outline-offset: 2px; border-radius: 6px; }
+
+/* Hide number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* Print */
+@media print { .no-print { display: none !important; } }
