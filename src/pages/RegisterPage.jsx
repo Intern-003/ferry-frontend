@@ -62,17 +62,7 @@ export default function RegisterPage() {
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-crimson/20 blur-3xl -translate-y-1/3 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-powder/10 blur-3xl translate-y-1/3 -translate-x-1/3" />
 
-        <Link to="/" className="relative flex items-center gap-3">
-          <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-lg">
-            <BrandLogo />
-          </div>
-          <div className="text-white">
-            <div className="font-extrabold tracking-tight">Spay Fintech Pvt Ltd</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-crimson-light">
-              Ferry Booking
-            </div>
-          </div>
-        </Link>
+        <span to="/" className="relative flex items-center gap-3">&nbsp;</span>
 
         <div className="relative text-white">
           <h2 className="text-4xl font-black tracking-tight leading-tight mb-5">
