@@ -9,7 +9,6 @@ import { Mail, Lock, User, Phone, ArrowRight, Check } from "lucide-react";
 
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
-import BrandLogo from "../components/ui/BrandLogo";
 import { publicApi } from "../api/public.api";
 import { useAuth } from "../hooks/useAuth";
 
@@ -55,34 +54,42 @@ export default function RegisterPage() {
     }
   };
 
-  return (
-    <div className="min-h-[80vh] grid lg:grid-cols-2">
-      {/* Left: brand panel */}
+return (
+  <div className="grid lg:grid-cols-2 min-h-full">
+      {/* ───────── LEFT: Brand panel ───────── */}
       <div className="hidden lg:flex relative bg-navy-gradient overflow-hidden p-12 flex-col justify-between">
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-crimson/20 blur-3xl -translate-y-1/3 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-powder/10 blur-3xl translate-y-1/3 -translate-x-1/3" />
 
         <Link to="/" className="relative flex items-center gap-3">
           <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-lg">
-            <BrandLogo />
+            <span className="text-xl font-black bg-gradient-to-br from-crimson to-navy bg-clip-text text-transparent">
+              SF
+            </span>
           </div>
           <div className="text-white">
             <div className="font-extrabold tracking-tight">Spay Fintech Pvt Ltd</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-crimson-light">
-              Ferry Booking
+              Spay Ferry
             </div>
           </div>
         </Link>
 
-        <div className="relative text-white">
+        <div className="relative text-white max-w-md">
           <h2 className="text-4xl font-black tracking-tight leading-tight mb-5">
             Your island<br />journey starts here.
           </h2>
           <p className="text-powder/80 leading-relaxed mb-8">
-            Create your free account to book ferries, track bookings and manage your island trips.
+            Create your free account to book ferries, track bookings and manage
+            your island trips.
           </p>
           <ul className="space-y-3">
-            {["Instant booking confirmation", "Pay on boarding", "Cancel up to 24 hours before", "Free account — no charges"].map((t) => (
+            {[
+              "Instant booking confirmation",
+              "Pay on boarding",
+              "Cancel up to 24 hours before",
+              "Free account — no charges",
+            ].map((t) => (
               <li key={t} className="flex items-center gap-3 text-sm">
                 <span className="w-5 h-5 rounded-full bg-crimson flex items-center justify-center shrink-0">
                   <Check size={12} strokeWidth={3} />
@@ -94,11 +101,11 @@ export default function RegisterPage() {
         </div>
 
         <div className="relative text-powder/60 text-xs">
-          © {new Date().getFullYear()} Spay Fintech Pvt Ltd Private Limited
+          © {new Date().getFullYear()} Spay Fintech Pvt Ltd
         </div>
       </div>
 
-      {/* Right: form */}
+      {/* ───────── RIGHT: Form ───────── */}
       <div className="flex items-center justify-center p-6 md:p-12 bg-mist">
         <div className="w-full max-w-md">
           <div className="mb-8">

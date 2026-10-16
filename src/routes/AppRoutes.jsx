@@ -13,6 +13,9 @@ import NotFoundPage from "../pages/NotFoundPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import MyBookingsPage from "../pages/MyBookingsPage";
+import PrivacyPolicyPage from "../pages/Legal/PrivacyPolicyPage";
+import TermsConditionsPage from "../pages/Legal/TermsConditionsPage";
+import RefundCancellationPage from "../pages/Legal/RefundCancellationPage";
 
 import AdminLayout from "../pages/admin/AdminLayout";
 import DashboardPage from "../pages/admin/DashboardPage";
@@ -37,6 +40,9 @@ export default function AppRoutes() {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/my-bookings" element={<MyBookingsPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-conditions" element={<TermsConditionsPage />} />
+        <Route path="/refund-cancellation" element={<RefundCancellationPage />} />
       </Route>
 
       {/* AUTH */}

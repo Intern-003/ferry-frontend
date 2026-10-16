@@ -13,10 +13,10 @@ export default function PublicLayout() {
   }, [pathname]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-navy-50">
+    <div className="min-h-screen grid grid-rows-[auto_auto_1fr_auto] bg-navy-50">
       <TopBar />
       <Header />
-      <main className="flex-1">
+      <main className="grid">
         <Outlet />
       </main>
       <Footer />
