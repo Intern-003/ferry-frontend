@@ -40,9 +40,10 @@ export default function AppRoutes() {
       </Route>
 
       {/* AUTH */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-
+      <Route element={<PublicLayout />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Route>
       {/* ADMIN */}
       <Route
         path="/admin"
