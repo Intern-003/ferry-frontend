@@ -113,13 +113,17 @@ export default function Footer() {
       <div className="relative border-t border-white/10">
         <div className="container-x py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-powder/60">
           <div>© {new Date().getFullYear()} {COMPANY_NAME}. All rights reserved.</div>
-          <div className="flex gap-6">
-            {["Terms", "Privacy", "Refund Policy"].map((x) => (
-              <a key={x} href="#" className="hover:text-white transition-colors">
-                {x}
-              </a>
-            ))}
-          </div>
+<div className="flex gap-6">
+  <Link to="/terms-conditions" className="hover:text-white transition-colors">
+    Terms &amp; Conditions
+  </Link>
+  <Link to="/privacy-policy" className="hover:text-white transition-colors">
+    Privacy Policy
+  </Link>
+  <Link to="/refund-cancellation" className="hover:text-white transition-colors">
+    Refund &amp; Cancellation
+  </Link>
+</div>
         </div>
       </div>
     </footer>
