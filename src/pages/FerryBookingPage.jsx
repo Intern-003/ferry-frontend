@@ -1,7 +1,7 @@
 // src/pages/FerryBookingPage.jsx
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, CalendarDays, Users, MapPin, Filter, X } from "lucide-react";
+import { Search, CalendarDays, Users, MapPin, Filter, X, Sparkles } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { publicApi } from "../api/public.api";
@@ -13,7 +13,7 @@ import Spinner from "../components/ui/Spinner";
 import Button from "../components/ui/Button";
 
 const DEFAULT_FILTERS = {
-  maxPrice: 100000,   // very high — will be auto-capped to real data
+  maxPrice: 100000,
   minPrice: 0,
   sort: "departure",
   classes: [],
@@ -30,9 +30,10 @@ export default function FerryBookingPage() {
   );
   const [pax, setPax]   = useState(params.get("passengers") || "1");
 
-  const [trips, setTrips]         = useState([]);
-  const [loading, setLoading]     = useState(false);
-  const [searched, setSearched]   = useState(false);
+  const [trips, setTrips]               = useState([]);
+  const [loading, setLoading]           = useState(false);
+  const [searched, setSearched]         = useState(false);
+  const [browsing, setBrowsing]         = useState(true);
   const [selectedTrip, setSelectedTrip] = useState(null);
   const [showFilters, setShowFilters]   = useState(false);
 
@@ -42,7 +43,42 @@ export default function FerryBookingPage() {
   const locations = locResp?.data || [];
 
   /* =========================================================
-   * Run search
+   * Helpers — Auto-fit price range to loaded trips
+   * ========================================================= */
+  const applyPriceRangeFromTrips = (items) => {
+    if (items.length === 0) return;
+    const prices = items.map((t) => Number(t.base_price || 0));
+    const maxPrice = Math.max(...prices);
+    setFilters((prev) => ({
+      ...prev,
+      minPrice: 0,
+      maxPrice: Math.ceil(maxPrice / 100) * 100 + 100,
+    }));
+  };
+
+  /* =========================================================
+   * Load all upcoming trips (default browse mode)
+   * ========================================================= */
+  const loadUpcoming = useCallback(async () => {
+    setLoading(true);
+    setBrowsing(true);
+    setSearched(false);
+
+    try {
+      const res = await publicApi.upcomingTrips({ limit: 50 });
+      const items = res?.data?.data?.items || [];
+      setTrips(items);
+      applyPriceRangeFromTrips(items);
+    } catch (err) {
+      toast.error("Failed to load trips");
+      setTrips([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  /* =========================================================
+   * Search with filters
    * ========================================================= */
   const runSearch = useCallback(async () => {
     if (!from || !to || !date) {
@@ -56,39 +92,16 @@ export default function FerryBookingPage() {
 
     setLoading(true);
     setSearched(true);
+    setBrowsing(false);
 
     try {
-      const res = await publicApi.search({
-        from,
-        to,
-        date,
-        passengers: pax,
-      });
-
+      const res = await publicApi.search({ from, to, date, passengers: pax });
       const items = res?.data?.data?.items || [];
       setTrips(items);
-
-      // Reset filters but auto-set price range from real data
-      if (items.length > 0) {
-        const prices = items.map((t) => Number(t.base_price || 0));
-        const maxTripPrice = Math.max(...prices);
-        setFilters((prev) => ({
-          ...prev,
-          minPrice: 0,
-          maxPrice: Math.ceil(maxTripPrice / 100) * 100 + 100, // round up to nearest 100
-        }));
-      } else {
-        setFilters(DEFAULT_FILTERS);
-      }
-
-      // Sync URL so it's shareable
-      setParams(
-        { from, to, date, passengers: pax },
-        { replace: true }
-      );
+      applyPriceRangeFromTrips(items);
+      setParams({ from, to, date, passengers: pax }, { replace: true });
     } catch (err) {
-      const msg = err?.response?.data?.message || "Search failed. Please try again.";
-      toast.error(msg);
+      toast.error(err?.response?.data?.message || "Search failed");
       setTrips([]);
     } finally {
       setLoading(false);
@@ -96,40 +109,38 @@ export default function FerryBookingPage() {
   }, [from, to, date, pax, setParams]);
 
   /* =========================================================
-   * Auto-search on mount if URL has params
+   * On mount: search if URL has params, else browse all
    * ========================================================= */
   useEffect(() => {
     if (from && to && date) {
       runSearch();
+    } else {
+      loadUpcoming();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* =========================================================
-   * Applied filters
+   * Applied filters + sort
    * ========================================================= */
   const filteredTrips = useMemo(() => {
     let list = [...trips];
 
-    // Price range
     list = list.filter((t) => {
       const price = Number(t.base_price || 0);
       return price >= filters.minPrice && price <= filters.maxPrice;
     });
 
-    // Seat class
     if (filters.classes.length > 0) {
       list = list.filter((t) => filters.classes.includes(t.seat_class));
     }
 
-    // Operator (boat name)
     if (filters.operator) {
       list = list.filter((t) =>
         t.boat?.name?.toLowerCase().includes(filters.operator.toLowerCase())
       );
     }
 
-    // Sort
     switch (filters.sort) {
       case "price_asc":
         list.sort((a, b) => Number(a.base_price) - Number(b.base_price));
@@ -148,7 +159,7 @@ export default function FerryBookingPage() {
   }, [trips, filters]);
 
   /* =========================================================
-   * Derived info for header
+   * Derived info
    * ========================================================= */
   const fromName = locations.find((l) => String(l.id) === String(from))?.name || "—";
   const toName   = locations.find((l) => String(l.id) === String(to))?.name || "—";
@@ -169,12 +180,19 @@ export default function FerryBookingPage() {
     });
   };
 
+  const handleResetSearch = () => {
+    setFrom("");
+    setTo("");
+    setParams({}, { replace: true });
+    loadUpcoming();
+  };
+
   /* =========================================================
    * Render
    * ========================================================= */
   return (
     <div className="bg-mist min-h-screen">
-      {/* Hero */}
+      {/* ============ Hero ============ */}
       <div className="relative bg-navy-gradient overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-crimson/15 blur-3xl -translate-y-1/3 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-powder/10 blur-3xl translate-y-1/3 -translate-x-1/3" />
@@ -189,7 +207,7 @@ export default function FerryBookingPage() {
         </div>
       </div>
 
-      {/* Search bar */}
+      {/* ============ Search card ============ */}
       <div className="container-x -mt-10 relative z-10 mb-10">
         <div className="bg-white rounded-3xl shadow-modal p-5 md:p-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -258,13 +276,26 @@ export default function FerryBookingPage() {
               </Button>
             </div>
           </div>
+
+          {/* Reset to browse all */}
+          {(searched || from || to) && (
+            <div className="mt-3 text-center">
+              <button
+                type="button"
+                onClick={handleResetSearch}
+                className="text-xs font-bold text-crimson hover:underline"
+              >
+                ← Show all upcoming ferries
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Results */}
+      {/* ============ Results ============ */}
       <div className="container-x pb-20">
         <div className="grid lg:grid-cols-[280px_1fr] gap-6">
-          {/* Sidebar (desktop) */}
+          {/* Sidebar — desktop */}
           <div className="hidden lg:block">
             <FilterSidebar
               filters={filters}
@@ -275,7 +306,7 @@ export default function FerryBookingPage() {
           </div>
 
           <div>
-            {/* Mobile filter toggle */}
+            {/* Sidebar toggle — mobile */}
             <div className="lg:hidden mb-4">
               <Button
                 variant="outline"
@@ -298,19 +329,40 @@ export default function FerryBookingPage() {
             </div>
 
             {/* Header */}
-            {searched && !loading && (
-              <div className="mb-6 flex items-center justify-between flex-wrap gap-3">
+            {!loading && trips.length > 0 && (
+              <div className="mb-6 flex items-start justify-between flex-wrap gap-3">
                 <div>
+                  {browsing && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-crimson/10 text-crimson text-[10px] font-bold uppercase tracking-widest mb-2">
+                      <Sparkles size={10} /> All Upcoming
+                    </span>
+                  )}
                   <h2 className="text-2xl font-black text-ink tracking-tight">
-                    {filteredTrips.length} {filteredTrips.length === 1 ? "ferry" : "ferries"} found
+                    {filteredTrips.length}{" "}
+                    {filteredTrips.length === 1 ? "ferry" : "ferries"} available
                   </h2>
-                  <p className="text-sm text-navy/60 mt-0.5">
-                    {fromName} → {toName} • {new Date(date).toLocaleDateString("en-IN", {
-                      day: "numeric", month: "short", year: "numeric"
-                    })}
-                  </p>
+
+                  {searched && fromName !== "—" && (
+                    <p className="text-sm text-navy/60 mt-0.5">
+                      {fromName} → {toName} •{" "}
+                      {new Date(date).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </p>
+                  )}
+
+                  {browsing && (
+                    <p className="text-sm text-navy/60 mt-0.5">
+                      Browse all ferries sailing in the coming days
+                    </p>
+                  )}
                 </div>
-                {filters.classes.length > 0 && (
+
+                {(filters.classes.length > 0 ||
+                  filters.sort !== "departure" ||
+                  filters.maxPrice < priceRange.max + 100) && (
                   <button
                     onClick={handleResetFilters}
                     className="text-xs font-bold text-crimson hover:underline"
@@ -321,39 +373,49 @@ export default function FerryBookingPage() {
               </div>
             )}
 
+            {/* Loading */}
             {loading && (
-              <Spinner variant="centered" label="Searching for ferries…" />
+              <Spinner variant="centered" label="Loading ferries…" />
             )}
 
-            {!loading && searched && filteredTrips.length === 0 && (
+            {/* Empty state */}
+            {!loading && filteredTrips.length === 0 && (
               <div className="card p-16 text-center">
                 <div className="w-16 h-16 rounded-full bg-powder/40 flex items-center justify-center mx-auto mb-4">
                   <Search size={24} className="text-steel" />
                 </div>
-                <h3 className="text-xl font-bold text-ink mb-2">No ferries found</h3>
+                <h3 className="text-xl font-bold text-ink mb-2">
+                  No ferries found
+                </h3>
                 <p className="text-navy/60 mb-6">
                   {trips.length > 0
                     ? "Your filters removed all results. Try widening the price range."
+                    : browsing
+                    ? "No upcoming ferries scheduled yet."
                     : "Try a different date or route."}
                 </p>
+
                 {trips.length > 0 && (
                   <Button variant="outline" onClick={handleResetFilters}>
                     Reset Filters
                   </Button>
                 )}
+
+                {trips.length === 0 && browsing && (
+                  <Button variant="outline" onClick={loadUpcoming}>
+                    Refresh
+                  </Button>
+                )}
+
+                {trips.length === 0 && !browsing && (
+                  <Button variant="outline" onClick={handleResetSearch}>
+                    Show All Upcoming
+                  </Button>
+                )}
               </div>
             )}
 
-            {!loading && !searched && (
-              <div className="card p-16 text-center">
-                <div className="w-16 h-16 rounded-full bg-powder/40 flex items-center justify-center mx-auto mb-4">
-                  <Search size={24} className="text-steel" />
-                </div>
-                <h3 className="text-xl font-bold text-ink mb-2">Search for ferries</h3>
-                <p className="text-navy/60">Pick your route, date and passengers above.</p>
-              </div>
-            )}
-
+            {/* Trip list */}
             <div className="space-y-4">
               {!loading &&
                 filteredTrips.map((trip) => (
@@ -368,6 +430,7 @@ export default function FerryBookingPage() {
         </div>
       </div>
 
+      {/* Booking modal */}
       <BookingModal
         isOpen={!!selectedTrip}
         onClose={() => setSelectedTrip(null)}
@@ -378,7 +441,7 @@ export default function FerryBookingPage() {
 }
 
 /* =========================================================
- * Small helper
+ * Reusable small select field
  * ========================================================= */
 function SelectField({ icon, label, children, ...props }) {
   return (
