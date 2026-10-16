@@ -71,8 +71,8 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-powder/70">
               <li className="text-white font-semibold">{COMPANY_NAME}</li>
               <li className="leading-relaxed">
-                Office-316, Floor 3, 316 Laxmi Plaza,<br />
-                Andheri West, Mumbai, Maharashtra 400053.
+                Your trusted partner for reliable,<br />
+                seamless ferry and private boat bookings.
               </li>
             </ul>
           </div>
