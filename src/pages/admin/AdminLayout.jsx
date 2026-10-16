@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 
 import { publicApi } from "../../api/public.api";
 import { useAuth } from "../../hooks/useAuth";
+import BrandLogo from "../../components/ui/BrandLogo";
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
@@ -53,9 +54,7 @@ export default function AdminLayout() {
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-lg">
-              <span className="text-lg font-black bg-brand-gradient bg-clip-text text-transparent">
-                GP
-              </span>
+              <BrandLogo />
             </div>
             <div className="min-w-0">
               <div className="font-extrabold tracking-tight truncate">GramiPay</div>

@@ -23,9 +23,9 @@ const Button = forwardRef(function Button(
 
   const variants = {
     primary:
-      "bg-brand-gradient text-white shadow-md hover:shadow-glowCrimson hover:-translate-y-0.5",
+      "bg-brand-gradient text-white shadow-md hover:shadow-glow hover:-translate-y-0.5",
     outline:
-      "border-2 border-navy/20 text-navy bg-white hover:border-navy hover:bg-mist",
+      "border-2 border-brand/20 text-brand bg-white hover:border-brand-cyan hover:bg-mist",
     ghost:
       "text-ink hover:bg-mist",
     danger:

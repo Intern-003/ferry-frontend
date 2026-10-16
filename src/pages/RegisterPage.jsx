@@ -9,6 +9,7 @@ import { Mail, Lock, User, Phone, ArrowRight, Check } from "lucide-react";
 
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
+import BrandLogo from "../components/ui/BrandLogo";
 import { publicApi } from "../api/public.api";
 import { useAuth } from "../hooks/useAuth";
 
@@ -63,10 +64,10 @@ export default function RegisterPage() {
 
         <Link to="/" className="relative flex items-center gap-3">
           <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-lg">
-            <span className="text-xl font-black bg-brand-gradient bg-clip-text text-transparent">GP</span>
+            <BrandLogo />
           </div>
           <div className="text-white">
-            <div className="font-extrabold tracking-tight">GramiPay Digitech</div>
+            <div className="font-extrabold tracking-tight">Spay Fintech Pvt Ltd</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-crimson-light">
               Ferry Booking
             </div>
@@ -93,7 +94,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="relative text-powder/60 text-xs">
-          © {new Date().getFullYear()} GramiPay Digitech Private Limited
+          © {new Date().getFullYear()} Spay Fintech Pvt Ltd Private Limited
         </div>
       </div>
 
