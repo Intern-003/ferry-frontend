@@ -2,13 +2,14 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from "lucide-react";
 import { NAV_LINKS, COMPANY_NAME, COMPANY_PHONE, COMPANY_EMAIL } from "../../lib/constants";
+import BrandLogo from "../ui/BrandLogo";
 
 export default function Footer() {
   return (
-    <footer className="relative bg-ink text-powder mt-24 overflow-hidden">
+    <footer className="relative bg-gradient-to-br from-brand via-[#142B78] to-ink text-powder mt-24 overflow-hidden">
       {/* Decorative gradient blobs */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-steel/20 blur-3xl" />
-      <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-crimson/10 blur-3xl" />
+      <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-brand-cyan/20 blur-3xl" />
+      <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-brand/30 blur-3xl" />
 
       <div className="relative container-x pt-16 pb-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
@@ -16,13 +17,11 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link to="/" className="flex items-center gap-3 mb-5 group">
               <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
-                <span className="text-lg font-black bg-brand-gradient bg-clip-text text-transparent">
-                  GP
-                </span>
+                <BrandLogo />
               </div>
               <div>
-                <div className="font-extrabold text-white tracking-tight">GramiPay Digitech</div>
-                <div className="text-[9px] font-bold uppercase tracking-[0.18em] text-crimson-light">
+                <div className="font-extrabold text-white tracking-tight">Spay Fintech Pvt Ltd</div>
+                <div className="text-[9px] font-bold uppercase tracking-[0.18em] text-brand-cyan">
                   Ferry Booking
                 </div>
               </div>
@@ -36,7 +35,7 @@ export default function Footer() {
                   key={i}
                   href="#"
                   aria-label="social"
-                  className="w-9 h-9 rounded-full bg-white/10 border border-white/10 flex items-center justify-center hover:bg-crimson hover:border-crimson hover:-translate-y-1 transition-all duration-300"
+                  className="w-9 h-9 rounded-full bg-white/10 border border-white/10 flex items-center justify-center hover:bg-brand-cyan hover:border-brand-cyan hover:-translate-y-1 transition-all duration-300"
                 >
                   <Icon size={15} />
                 </a>
@@ -56,7 +55,7 @@ export default function Footer() {
                     to={l.path}
                     className="text-sm text-powder/70 hover:text-white transition-colors inline-flex items-center gap-2 group"
                   >
-                    <span className="w-1 h-1 rounded-full bg-crimson group-hover:w-3 transition-all" />
+                    <span className="w-1 h-1 rounded-full bg-brand-cyan group-hover:w-3 transition-all" />
                     {l.label}
                   </Link>
                 </li>
@@ -72,8 +71,8 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-powder/70">
               <li className="text-white font-semibold">{COMPANY_NAME}</li>
               <li className="leading-relaxed">
-                Plot No 239, Block K, Sector 42<br />
-                Gurugram, Haryana - 122003
+                Office-316, Floor 3, 316 Laxmi Plaza,<br />
+                Andheri West, Mumbai, Maharashtra 400053.
               </li>
             </ul>
           </div>
@@ -85,26 +84,26 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3.5 text-sm">
               <li className="flex items-start gap-3 group">
-                <span className="w-8 h-8 rounded-lg bg-crimson/20 flex items-center justify-center shrink-0 group-hover:bg-crimson transition-colors">
-                  <Phone size={14} className="text-crimson-light group-hover:text-white transition-colors" />
+                <span className="w-8 h-8 rounded-lg bg-brand-cyan/20 flex items-center justify-center shrink-0 group-hover:bg-brand-cyan transition-colors">
+                  <Phone size={14} className="text-brand-cyan group-hover:text-white transition-colors" />
                 </span>
                 <a href={`tel:${COMPANY_PHONE}`} className="pt-1 hover:text-white transition-colors">
                   {COMPANY_PHONE}
                 </a>
               </li>
               <li className="flex items-start gap-3 group">
-                <span className="w-8 h-8 rounded-lg bg-crimson/20 flex items-center justify-center shrink-0 group-hover:bg-crimson transition-colors">
-                  <Mail size={14} className="text-crimson-light group-hover:text-white transition-colors" />
+                <span className="w-8 h-8 rounded-lg bg-brand-cyan/20 flex items-center justify-center shrink-0 group-hover:bg-brand-cyan transition-colors">
+                  <Mail size={14} className="text-brand-cyan group-hover:text-white transition-colors" />
                 </span>
                 <a href={`mailto:${COMPANY_EMAIL}`} className="pt-1 hover:text-white transition-colors break-all">
                   {COMPANY_EMAIL}
                 </a>
               </li>
               <li className="flex items-start gap-3 group">
-                <span className="w-8 h-8 rounded-lg bg-crimson/20 flex items-center justify-center shrink-0 group-hover:bg-crimson transition-colors">
-                  <MapPin size={14} className="text-crimson-light group-hover:text-white transition-colors" />
+                <span className="w-8 h-8 rounded-lg bg-brand-cyan/20 flex items-center justify-center shrink-0 group-hover:bg-brand-cyan transition-colors">
+                  <MapPin size={14} className="text-brand-cyan group-hover:text-white transition-colors" />
                 </span>
-                <span className="pt-1">Andaman Islands, India</span>
+                <span className="pt-1">Office-316, Floor 3, 316 Laxmi Plaza, Andheri West, Mumbai, Maharashtra 400053.</span>
               </li>
             </ul>
           </div>

@@ -1,6 +1,7 @@
 // src/pages/AboutPage.jsx
 import { Building2, Briefcase, Phone, MapPin, Mail, Zap, Search, Headphones, Shield, Check } from "lucide-react";
 import Reveal from "../components/ui/Reveal";
+import BrandLogo from "../components/ui/BrandLogo";
 import { COMPANY_NAME, COMPANY_PHONE, COMPANY_EMAIL } from "../lib/constants";
 
 const DETAILS = [
@@ -10,7 +11,7 @@ const DETAILS = [
 ];
 
 const BUSINESS = [
-  { icon: MapPin,  label: "Office Address",  value: "Plot No 239, Block K, Sector 42, Near Sector 42-43 Metro Station, Sector -45, Haryana, India - 122003" },
+  { icon: MapPin,  label: "Office Address",  value: "Office-316, Floor 3, 316 Laxmi Plaza, Andheri West, Mumbai, Maharashtra 400053." },
   { icon: Phone,   label: "Contact Number",  value: `${COMPANY_PHONE} — For ferry, private boat and general travel booking assistance.` },
   { icon: Mail,    label: "Core Services",   value: "Online ferry booking, private boat booking, route discovery and booking-related travel support." },
 ];
@@ -77,12 +78,10 @@ export default function AboutPage() {
           <Reveal delay={150}>
             <div className="card p-8 h-full flex flex-col items-center justify-center text-center bg-gradient-to-br from-white to-mist">
               <div className="w-40 h-40 rounded-3xl bg-white border-2 border-powder flex items-center justify-center shadow-lg mb-6">
-                <span className="text-6xl font-black bg-brand-gradient bg-clip-text text-transparent">
-                  GP
-                </span>
+                <BrandLogo />
               </div>
               <div className="text-2xl font-black text-ink tracking-tight mb-2">
-                GramiPay Digitech Private Limited
+                Spay Fintech Pvt Ltd Private Limited
               </div>
               <div className="text-sm text-navy/60 font-semibold uppercase tracking-[0.15em] mb-1">
                 Ferry &amp; Private Boat Booking

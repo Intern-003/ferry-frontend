@@ -113,8 +113,8 @@ export default function ContactPage() {
                 <h3 className="font-black text-ink text-lg mb-2 tracking-tight">Office</h3>
                 <p className="text-sm text-navy/70 leading-relaxed">
                   {COMPANY_NAME}<br />
-                  Plot No 239, Block K, Sector 42<br />
-                  Gurugram, Haryana - 122003
+                  Office-316, Floor 3, 316 Laxmi Plaza,<br />
+                  Andheri West, Mumbai, Maharashtra 400053.
                 </p>
               </div>
             </div>

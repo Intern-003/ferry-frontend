@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         // Pinterest palette
+        brand:  { DEFAULT: "#19389D", cyan: "#149BC5" },
         ink:    { DEFAULT: "#0A1931", light: "#132F4F", softer: "#1A3D63" },
         navy:   { DEFAULT: "#1A3D63", deep: "#0F2A47", light: "#2E5D80" },
         steel:  { DEFAULT: "#4A7FA7", light: "#7BA8C9", dark: "#356585" },
@@ -21,12 +22,12 @@ export default {
         card:        "0 8px 30px rgba(10, 25, 49, 0.08)",
         cardHover:   "0 24px 60px rgba(10, 25, 49, 0.18)",
         modal:       "0 30px 80px rgba(10, 25, 49, 0.3)",
-        glow:        "0 0 40px rgba(74, 127, 167, 0.4)",
-        glowCrimson: "0 0 30px rgba(220, 38, 38, 0.45)",
+        glow:        "0 0 40px rgba(20, 155, 197, 0.35)",
+        glowCrimson: "0 0 30px rgba(20, 155, 197, 0.4)",
         inner:       "inset 0 1px 2px rgba(10, 25, 49, 0.06)",
       },
       backgroundImage: {
-        "brand-gradient": "linear-gradient(135deg, #DC2626 0%, #0A1931 100%)",
+        "brand-gradient": "linear-gradient(135deg, #19389D 0%, #149BC5 100%)",
         "navy-gradient":  "linear-gradient(135deg, #0A1931 0%, #1A3D63 50%, #4A7FA7 100%)",
         "steel-gradient": "linear-gradient(135deg, #4A7FA7 0%, #1A3D63 100%)",
         "powder-gradient":"linear-gradient(135deg, #F6FAFD 0%, #B3CFE5 100%)",

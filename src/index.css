@@ -26,14 +26,14 @@
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
            bg-brand-gradient text-white font-bold shadow-md
-           hover:shadow-glowCrimson hover:-translate-y-0.5 active:translate-y-0
+           hover:shadow-glow hover:-translate-y-0.5 active:translate-y-0
            transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed
            disabled:hover:translate-y-0 disabled:hover:shadow-md;
   }
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
-           border-2 border-navy/20 text-navy font-bold bg-white
-           hover:border-navy hover:bg-mist transition-all duration-300;
+           border-2 border-brand/20 text-brand font-bold bg-white
+           hover:border-brand-cyan hover:bg-mist transition-all duration-300;
   }
   .card {
     @apply bg-white rounded-3xl shadow-card border border-powder/40
